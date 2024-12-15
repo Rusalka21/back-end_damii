@@ -35,13 +35,6 @@ public class TareaController {
         return tareas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(tareas);
     }
 
-    // Obtener todas las tareas de un usuario
-    @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Tarea>> getTareasByUsuarioId(@PathVariable Integer idUsuario) {
-        List<Tarea> tareas = tareaService.getTareasByUsuarioId(idUsuario);
-        return tareas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(tareas);
-    }
-
     // Obtener tarea por ID
     @GetMapping("/{idTarea}")
     public ResponseEntity<Tarea> getTareaById(@PathVariable Integer idTarea) {
@@ -72,9 +65,9 @@ public class TareaController {
         tareaService.deleteTarea(idTarea);
         return ResponseEntity.noContent().build();
     }
-    @PatchMapping("/{idTarea}/cumplida")
-    public ResponseEntity<Tarea> actualizarEstadoTarea(@PathVariable Integer idTarea, @RequestBody Boolean cumplida) {
-        Tarea tareaActualizada = tareaService.actualizarEstadoTarea(idTarea, cumplida);
+    @PatchMapping("/{idTarea}")
+    public ResponseEntity<Tarea> actualizarEstadoTarea(@PathVariable Integer idTarea) {
+        Tarea tareaActualizada = tareaService.actualizarEstadoTarea(idTarea);
         return tareaActualizada != null ? ResponseEntity.ok(tareaActualizada)
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

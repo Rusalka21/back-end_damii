@@ -15,6 +15,5 @@ public class ProyectoResponse {
     private String nombre;
     private String color;
 
-    // Lista de invitados (representados como DTOs)
-    private List<UsuarioResponse> invitados;
+    private Usuario usuario;
 }

@@ -19,5 +19,4 @@ public interface ProyectoRepository extends JpaRepository<Proyecto, Integer> {
     // Buscar un proyecto por su nombre
     Optional<Proyecto> findByNombre(String nombre);
 
-    List<Proyecto> findByInvitados_Id(Integer usuarioId);
 }

@@ -24,11 +24,6 @@ public class TareaService {
         return tareaRepository.findByProyectoIdProyectoAndActivoTrue(idProyecto);
     }
 
-    // Obtener todas las tareas activas de un usuario
-    public List<Tarea> getTareasByUsuarioId(Integer idUsuario) {
-        return tareaRepository.findByUsuarioIdAndActivoTrue(idUsuario);
-    }
-
     // Obtener tarea activa por ID
     public Optional<Tarea> getTareaById(Integer idTarea) {
         return tareaRepository.findByIdTareaAndActivoTrue(idTarea);
@@ -54,11 +49,11 @@ public class TareaService {
         }
     }
 
-    public Tarea actualizarEstadoTarea(Integer idTarea, Boolean cumplida) {
+    public Tarea actualizarEstadoTarea(Integer idTarea) {
         Optional<Tarea> tareaOpt = tareaRepository.findByIdTareaAndActivoTrue(idTarea);
         if (tareaOpt.isPresent()) {
             Tarea tarea = tareaOpt.get();
-            tarea.setCumplida(cumplida);
+            tarea.setCumplida(!tarea.getCumplida());
             return tareaRepository.save(tarea);
         }
         return null;

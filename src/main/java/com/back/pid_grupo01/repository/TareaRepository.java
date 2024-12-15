@@ -13,9 +13,6 @@ public interface TareaRepository extends JpaRepository<Tarea, Integer> {
     // Obtener tareas activas por ID de proyecto
     List<Tarea> findByProyectoIdProyectoAndActivoTrue(Integer idProyecto);
 
-    // Obtener tareas activas por ID de usuario
-    List<Tarea> findByUsuarioIdAndActivoTrue(Integer idUsuario);
-
     // Obtener tarea activa por ID
     Optional<Tarea> findByIdTareaAndActivoTrue(Integer idTarea);
 

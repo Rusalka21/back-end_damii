@@ -22,7 +22,6 @@ public class Tarea {
 
     private String titulo;
     private String descripcion;
-    private TareaPrioridad prioridad;
 
     @Column(name = "fecha_vencimiento")
     private Date fechaVencimiento;
@@ -32,10 +31,6 @@ public class Tarea {
     @ManyToOne
     @JoinColumn(name = "id_proyecto", nullable = false)
     private Proyecto proyecto;
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
 
     @Builder.Default
     private Boolean activo = true; // Nuevo campo para delete lógico

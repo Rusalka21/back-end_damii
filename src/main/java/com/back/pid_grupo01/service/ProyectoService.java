@@ -32,11 +32,6 @@ public class ProyectoService {
         return proyectoRepository.findByUsuarioId(idUsuario);
     }
 
-    // Obtener todos los proyectos por Id de Invitados
-    public List<Proyecto> findProjectsByInvitadoId(Integer userId) {
-        return proyectoRepository.findByInvitados_Id(userId);
-    }
-
     // Actualizar un proyecto
     public Proyecto updateProyecto(Proyecto proyecto) {
         return proyectoRepository.save(proyecto);
@@ -47,40 +42,5 @@ public class ProyectoService {
         proyectoRepository.deleteById(idProyecto);
     }
 
-    // Agregar un invitado al proyecto
-    public Proyecto agregarInvitado(Integer idProyecto, Integer idUsuario) {
-        Proyecto proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Verificar si el usuario ya está en la lista de invitados
-        if (proyecto.getInvitados().contains(usuario)) {
-            throw new RuntimeException("El usuario ya está invitado a este proyecto");
-        }
-
-        // Agregar el usuario a la lista de invitados
-        proyecto.getInvitados().add(usuario);
-        return proyectoRepository.save(proyecto);
-    }
-
-    // Eliminar un invitado del proyecto
-    public Proyecto eliminarInvitado(Integer idProyecto, Integer idUsuario) {
-        Proyecto proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        // Remover el usuario de la lista de invitados
-        proyecto.getInvitados().remove(usuario);
-        return proyectoRepository.save(proyecto);
-    }
-
-    // Obtener todos los invitados de un proyecto
-    public List<Usuario> obtenerInvitados(Integer idProyecto) {
-        Proyecto proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
-
-        return proyecto.getInvitados();
-    }
 }

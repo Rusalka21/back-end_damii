@@ -29,12 +29,4 @@ public class Proyecto {
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
     private Usuario usuario;
-
-    @ManyToMany
-    @JoinTable(
-            name = "proyecto_invitados",
-            joinColumns = @JoinColumn(name = "id_proyecto"),
-            inverseJoinColumns = @JoinColumn(name = "id_usuario")
-    )
-    private List<Usuario> invitados; // Relación para los usuarios invitados
 }

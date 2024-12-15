@@ -33,23 +33,13 @@ public class ProyectoController {
         Proyecto proyecto = proyectoService.getProyectoById(idProyecto)
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
 
-        // Mapear la lista de invitados al DTO UsuarioResponse
-        List<UsuarioResponse> invitados = proyecto.getInvitados().stream()
-                .map(usuario -> new UsuarioResponse(
-                        usuario.getId(),
-                        usuario.getNombre(),
-                        usuario.getApellido(),
-                        usuario.getEmail(),
-                        usuario.getUsername(),
-                        usuario.getUsername1()))
-                .collect(Collectors.toList());
 
         // Crear y devolver el DTO ProyectoResponse
         ProyectoResponse response = new ProyectoResponse(
                 proyecto.getIdProyecto(),
                 proyecto.getNombre(),
                 proyecto.getColor(),
-                invitados
+                proyecto.getUsuario()
         );
 
         return ResponseEntity.ok(response);
@@ -62,35 +52,16 @@ public class ProyectoController {
 
         // Mapear cada proyecto a su DTO ProyectoResponse
         List<ProyectoResponse> response = proyectos.stream().map(proyecto -> {
-            List<UsuarioResponse> invitados = proyecto.getInvitados().stream()
-                    .map(usuario -> new UsuarioResponse(
-                            usuario.getId(),
-                            usuario.getNombre(),
-                            usuario.getApellido(),
-                            usuario.getEmail(),
-                            usuario.getUsername(),
-                            usuario.getUsername1()))
-                    .collect(Collectors.toList());
 
             return new ProyectoResponse(
                     proyecto.getIdProyecto(),
                     proyecto.getNombre(),
                     proyecto.getColor(),
-                    invitados
+                    proyecto.getUsuario()
             );
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(response);
-    }
-
-    //Obtener proyectos por id de Invitado
-    @GetMapping("/invitado/{id}")
-    public ResponseEntity<List<Proyecto>> findProjectsByInvitadoId(@PathVariable Integer id){
-        List<Proyecto> proyectos = proyectoService.findProjectsByInvitadoId(id);
-        if (proyectos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(proyectos);
     }
 
     // Actualizar un proyecto
@@ -108,36 +79,4 @@ public class ProyectoController {
         return ResponseEntity.noContent().build();
     }
 
-    // Agregar un invitado al proyecto
-    @PatchMapping("/{idProyecto}/invitados/{idUsuario}")
-    public ResponseEntity<Proyecto> agregarInvitado(@PathVariable Integer idProyecto, @PathVariable Integer idUsuario) {
-        Proyecto proyectoActualizado = proyectoService.agregarInvitado(idProyecto, idUsuario);
-        return ResponseEntity.ok(proyectoActualizado);
-    }
-
-    // Eliminar un invitado del proyecto
-    @DeleteMapping("/{idProyecto}/invitados/{idUsuario}")
-    public ResponseEntity<Proyecto> eliminarInvitado(@PathVariable Integer idProyecto, @PathVariable Integer idUsuario) {
-        Proyecto proyectoActualizado = proyectoService.eliminarInvitado(idProyecto, idUsuario);
-        return ResponseEntity.ok(proyectoActualizado);
-    }
-
-    // Obtener todos los invitados de un proyecto
-    @GetMapping("/{idProyecto}/invitados")
-    public ResponseEntity<List<UsuarioResponse>> obtenerInvitados(@PathVariable Integer idProyecto) {
-        List<Usuario> invitados = proyectoService.obtenerInvitados(idProyecto);
-
-        // Mapear la lista de invitados al DTO UsuarioResponse
-        List<UsuarioResponse> response = invitados.stream()
-                .map(usuario -> new UsuarioResponse(
-                        usuario.getId(),
-                        usuario.getNombre(),
-                        usuario.getApellido(),
-                        usuario.getEmail(),
-                        usuario.getUsername(),
-                        usuario.getUsername1()))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(response);
-    }
 }
