@@ -1,6 +1,7 @@
 package com.back.pid_grupo01.service;
 
 import com.back.pid_grupo01.model.Proyecto;
+import com.back.pid_grupo01.model.Tarea;
 import com.back.pid_grupo01.model.Usuario;
 import com.back.pid_grupo01.repository.ProyectoRepository;
 import com.back.pid_grupo01.repository.UsuarioRepository;
@@ -29,7 +30,7 @@ public class ProyectoService {
 
     // Obtener todos los proyectos de un usuario por su ID
     public List<Proyecto> getProyectosByUsuarioId(Integer idUsuario) {
-        return proyectoRepository.findByUsuarioId(idUsuario);
+        return proyectoRepository.findByUsuarioIdAndActivoTrue(idUsuario);
     }
 
     // Actualizar un proyecto
@@ -37,9 +38,29 @@ public class ProyectoService {
         return proyectoRepository.save(proyecto);
     }
 
-    // Eliminar un proyecto por su ID (eliminación física)
+    // Eliminar un proyecto por su ID (eliminación lógica)
     public void deleteProyecto(Integer idProyecto) {
-        proyectoRepository.deleteById(idProyecto);
+        Optional<Proyecto> proyectoOpt = proyectoRepository.findById(idProyecto);
+        if (proyectoOpt.isPresent()) {
+            Proyecto proyecto = proyectoOpt.get();
+            proyecto.setActivo(false); // Marcar como inactiva
+            proyectoRepository.save(proyecto);
+        }
+    }
+
+    public Proyecto restaurarProyecto(Integer idProyecto) {
+        Optional<Proyecto> proyectoOpt = proyectoRepository.findById(idProyecto);
+        if (proyectoOpt.isPresent()) {
+            Proyecto proyecto = proyectoOpt.get();
+
+            // Cambiar el estado de activo a true
+            proyecto.setActivo(true);
+
+            // Guardar los cambios en la base de datos
+            return proyectoRepository.save(proyecto);
+        } else {
+            throw new RuntimeException("Tarea no encontrada");
+        }
     }
 
 

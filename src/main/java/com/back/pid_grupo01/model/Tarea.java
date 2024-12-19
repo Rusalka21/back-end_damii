@@ -28,6 +28,8 @@ public class Tarea {
 
     private Boolean cumplida;
 
+    private TareaPrioridad prioridad;
+
     @ManyToOne
     @JoinColumn(name = "id_proyecto", nullable = false)
     private Proyecto proyecto;

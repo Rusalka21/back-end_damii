@@ -29,4 +29,7 @@ public class Proyecto {
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
     private Usuario usuario;
+
+    @Builder.Default
+    private Boolean activo = true;
 }

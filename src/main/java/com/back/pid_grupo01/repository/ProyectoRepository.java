@@ -1,6 +1,7 @@
 package com.back.pid_grupo01.repository;
 
 import com.back.pid_grupo01.model.Proyecto;
+import com.back.pid_grupo01.model.Tarea;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +19,8 @@ public interface ProyectoRepository extends JpaRepository<Proyecto, Integer> {
     
     // Buscar un proyecto por su nombre
     Optional<Proyecto> findByNombre(String nombre);
+
+    // Obtener proyectos activas por ID de usuario
+    List<Proyecto> findByUsuarioIdAndActivoTrue(Integer idUsuario);
 
 }
